@@ -48,11 +48,43 @@ Vue.component('shows', {
      }
 
  }
+ var Child = {
+    template : `
+       <div>
+           <h2>Componente local </h2>
+           <h3> personajes de start wars</h3>
+           <ul>
+               <li v-for="character in characters"> 
+                   {{character.name}}
+               </li>
+           </ul>
+       </div>
+    
+    `,
+    mounted(){
+        axios.get('https://swapi.co/api/people/').then(res=>{
+            console.log(res)
+            this.characters = res.data.results
+        })
+    },
+    data(){
+        return{
+            characters:[]
+        }
+    }
+
+}
+    
 
 const mv = new Vue({
     el: '#app',
     //los componentes locales se declaran dentro de la instancia 
-    component:{
-        'startwars ' : startwarsCharacters
+    /*component:{
+        'startwars' : startwarsCharacters
     }
+    */
+   components: {
+    // <my-component> solo estará disponible en la plantilla del padre
+    'my-component': Child
+  }
 })
