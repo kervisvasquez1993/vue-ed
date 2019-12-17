@@ -59,32 +59,54 @@
         }
     </style>
 </head>
-<body>
-<main id="app">
+<mail>
 
-</main>
-<template id="modal">
-    <div>
-        <h2>Soy una ventana modal</h2>
-        <slot></slot>
-    </div>
-</template>
+    <main id="app">
+        <div>
+            <h1>Eventos Personalizados en componentes en Vue.js</h1>
+            <a href="../">regresar</a>
+            <br>
+            <br>
+            <modal-btn @modal="toggleModal"></modal-btn>
+        </div>
+        <transition name="fade">
+            <modal v-if="isShowing" class="modal">
+                <modal-btn @modal="toggleModal"></modal-btn>
+            </modal>
+        </transition>
+    </main>
+    <template id="modal">
+        <div>
+            <h2>Soy una ventana modal</h2>
+            <slot></slot>
+        </div>
+    </template>
+</mail>
+
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
     const mv = new Vue({
         el: '#app',
         data: {
-
+            isShowing: false,
+            blur: 'blur'
         },
         methods: {
-
+            toggleModal () {
+                this.isShowing = !this.isShowing;
+            }
         },
         components: {
             modalBtn: {
-
+                template: `<button @click="openModal">Modal</button>`,
+                methods: {
+                    openModal () {
+                        this.$emit( 'modal' )
+                    }
+                }
             },
             modal: {
-
+                template: '#modal'
             }
         }
     })
