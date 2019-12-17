@@ -9,21 +9,36 @@
 <body>
 
   <div id="app">
-    <my-component></my-component>
-      <shows></shows> 
-      <pre>{{$data}}</pre>
+
+      <shows></shows>
+      <my-component></my-component>
+      <post></post>
+
     
   </div>
-  <template id="showss">
+  <template id="starwars">
       <div>
-          <h2>plantilla en el atributo template del componente segundo metodo</h2>
-          <h3>Shows tv maze</h3>
+          <h2>Componente local </h2>
+          <h3> personajes de start wars</h3>
           <ul>
-              <li v-for="show in shows"> {{show.name}}</li>
+              <li v-for="character in characters">
+                  {{character.name}}
+              </li>
           </ul>
-
       </div>
   </template>
+ <script type="text/template" id="post">
+     <div>
+
+            <h2>tercer metodo</h2>
+            <h3>Shows tv maze</h3>
+            <ul>
+                <li v-for="show in shows"> {{show.name}}</li>
+            </ul>
+
+        </div>
+
+  </script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -54,8 +69,26 @@
       });
 
       /*segundo metodo*/
-      Vue.component('showss', {
-          template :'#showss',
+      var Child = {
+          template :'#starwars',
+          mounted(){
+              axios.get('https://swapi.co/api/people/').then(res=>{
+                  console.log(res)
+                  this.characters = res.data.results
+              })
+          },
+          data(){
+              return{
+                  characters:[]
+              }
+          }
+
+      }
+
+      /*TERCER METODO*/
+
+      Vue.component('post', {
+          template :'#post',
           mounted(){
               axios.get('http://api.tvmaze.com/shows').then(res=>{
                   console.log(res);
@@ -72,7 +105,13 @@
 
 
       const mv = new Vue({
-          el: '#app'
+          el: '#app',
+          //los componentes locales se declaran dentro de la instancia
+          components: {
+              // <my-component> solo estará disponible en la plantilla del padre
+              'my-component': Child,
+
+          }
       })
 
 
