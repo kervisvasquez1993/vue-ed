@@ -9,7 +9,7 @@
 <body>
 
   <div id="app">
-    <my-component></my-component> 
+    <my-component></my-component>
       <shows></shows> 
       <pre>{{$data}}</pre>
     
@@ -18,7 +18,34 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        
+        Vue.component('shows', {
+            template : `
+        <div>
+        <h2>Componente global </h2>
+        <h3>Shows tv maze</h3>
+        <ul>
+            <li v-for="show in shows"> {{show.name}}</li>
+        </ul>
+
+        </div>
+    `,
+            mounted(){
+                axios.get('http://api.tvmaze.com/shows').then(res=>{
+                    console.log(res)
+                    this.shows = res.data
+                })
+            },
+            data(){
+                return{
+                    shows: []
+                }
+            }
+
+        })
+
+        const mv = new Vue({
+            el: '#app'
+        })
     
     
     </script>
