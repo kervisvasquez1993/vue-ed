@@ -1,4 +1,4 @@
-Vue.component('shows', {
+ /*Vue.component('shows', {
     template : `
         <div>
         <h2>Componente global </h2>
@@ -22,7 +22,10 @@ Vue.component('shows', {
      }
 
 })
- const startwarsCharacters= {
+
+*/
+
+ const startwarsCharacters = {
      template : `
         <div>
             <h2>Componente local </h2>
@@ -79,12 +82,9 @@ Vue.component('shows', {
 const mv = new Vue({
     el: '#app',
     //los componentes locales se declaran dentro de la instancia 
-    /*component:{
-        'startwars' : startwarsCharacters
-    }
-    */
-   components: {
+     components: {
     // <my-component> solo estará disponible en la plantilla del padre
-    'my-component': Child
+    'my-component': Child,
+    'startwars' : startwarsCharacters
   }
 })
