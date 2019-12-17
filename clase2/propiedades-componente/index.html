@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>porpiedades de componentes vue.js</h1>
+<div id="app">
+    <shows
+    v-for="show in shows"
+    :name="show.name"
+    :poster="show.image.medium"
+    :rating="show.rating.average"
+    :genres="show.genres"></shows>
+</div>
+<template id="shows">
+    <figure>
+        <img :src="poster" :alt="name">
+        <figcaption>
+            <h3>{{name}}</h3>
+            <p>calificacion:
+            <b>{{rating}}</b>
+            </p>
+            <ul>
+                <li v-for="genre in genres" v-text="genre"></li>
+            </ul>
+        </figcaption>
+
+    </figure>
+</template>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    Vue.component('shows', {
+        template : '#shows',
+        //props: ['name','poster','rating','genres'] /*cuando no voy a especificar el tipo de dato o validacion*/
+        props: {
+            name :{
+            type: String,
+            required: true
+            },
+            poster: String,
+            rating: Number,
+            genres: {
+                type: [String,Array],
+                required: true,
+                default: 'no genre'
+            }
+
+
+
+        }
+    })
+    const mv = new Vue({
+        el: '#app',
+        mounted(){
+            axios.get('http://api.tvmaze.com/shows').then(res=>{
+                console.log(res)
+                this.shows = res.data
+            })
+        },
+        data: {
+            shows:[]
+        }
+    })
+
+</script>
+</body>
+</html>

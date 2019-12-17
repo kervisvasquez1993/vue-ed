@@ -1,4 +1,4 @@
- /*Vue.component('shows', {
+ Vue.component('shows', {
     template : `
         <div>
         <h2>Componente global </h2>
@@ -23,7 +23,7 @@
 
 })
 
-*/
+
 
  const startwarsCharacters = {
      template : `
